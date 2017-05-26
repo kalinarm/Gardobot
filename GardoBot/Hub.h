@@ -1,29 +1,6 @@
 
 
-class Process {
-public :
-  float timeSinceStart;
-  float duration;
-  Process(float _duration) {
-    duration = _duration * 1000.0;
-    timeSinceStart = 0;
-  }
-  virtual void OnBegin() {
-
-  } 
-  virtual void OnEnd() {
-
-  } 
-  virtual void OnStep(float dt) {
-    timeSinceStart += dt;
-    Serial.print(timeSinceStart);
-    Serial.print(" / ");
-    Serial.println(duration);
-  }
-  bool isFinish() {
-    return timeSinceStart >= duration;
-  }
-};
+#include "process.h"
 
 int MAX_PROC = 5;
 
@@ -31,8 +8,7 @@ class Hub {
 public : 
 
   Process** procs;
-
-
+  
   void init() {
     procs = new Process*[MAX_PROC];
     for (int i = 0 ; i < MAX_PROC; ++i) {
@@ -65,10 +41,16 @@ public :
     }
   }
 
-
-
-
+  void clearProcess() {
+    for (int i = 0 ; i < MAX_PROC; ++i) {
+      if ( procs[i] ) {
+        procs[i]->OnEnd();
+        procs[i] = NULL;
+      }
+    }
+  }
 };
+
 
 
 

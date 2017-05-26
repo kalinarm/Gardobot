@@ -13,9 +13,6 @@ int moistureSensorPin = A1; // select the pin for the  blue LED
 int relayLightPin = 4;
 int relayWaterPin = 5;
 
-#include "Hub.h"
-Hub hub;
-
 #include "temperature.h"
 Temperature modTemp;
 
@@ -32,27 +29,8 @@ MoistureSensor moistureSensor;
 Relay relayLight;
 Relay relayWater;
 
-
-
-
-class ProcessWater : 
-public Process {
-public :
-  ProcessWater(float _duration) : 
-  Process(_duration) {
-
-  }
-  virtual void OnBegin() {
-    Serial.println("--> start watering");
-    rgb.setColor(0, 0, 128);
-    relayWater.turnOn();
-  } 
-  virtual void OnEnd() {
-    Serial.println("<-- stop watering");
-    relayWater.turnOff();
-    rgb.setColor(0, 0, 0);
-  } 
-};
+#include "Hub.h"
+Hub hub;
 
 void setup() {
   Serial.begin(9600);
@@ -65,7 +43,8 @@ void setup() {
   hub.init();
 
   //water(1.0);
-  hub.launchProcess(new ProcessWater(5.0));
+  //hub.launchProcess(new ProcessWater(2.0));
+  hub.launchProcess(new ProcessLight(8.0));
 }
 
 void loop() {
