@@ -24,11 +24,11 @@ public :
       if ( procs[i] ) {
         procs[i]->OnStep(dt); 
         if (procs[i]->isFinish()) {
-          procs[i]->OnEnd();
+          /*procs[i]->OnEnd();
           if (procs[i]->attachedProcess) {
             launchProcess( procs[i]->attachedProcess);
-          } 
-          //deleteProcess(procs[i], true);
+          } */
+          deleteProcess(procs[i], true);
           procs[i] = NULL;
         }
       }

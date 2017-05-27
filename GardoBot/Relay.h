@@ -6,6 +6,7 @@ public:
   void init(int _relay) {
     relayPin = _relay;
     pinMode(relayPin, OUTPUT);
+    turnOff();
   }
   void turnOn() {
     digitalWrite(relayPin, HIGH);

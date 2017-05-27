@@ -122,8 +122,9 @@ public :
       if (repetition > 0) {
         repetition-=1;
         timeSinceStart = 0;
-      }else {
-       return true; 
+      }
+      else {
+        return true; 
       }
     }
     return false;
@@ -135,23 +136,30 @@ class ProcessMonitor :
 public Process {
 public :
 
+  float lightAccum;
 
   ProcessMonitor() : 
   Process(0) {
-
+    duration = 86400;
   }
   virtual void OnBegin() {
+    lightAccum = 0;
     Serial.println("--> start monitoring");
 
   } 
   virtual void OnEnd() {
     Serial.println("<-- stop monitoring");
   } 
+  virtual void OnStep(float dt) {
+    timeSinceStart += dt;
+    lightAccum += lightVal;
+  }
 
   virtual bool isFinish() {
-    return false;
+    return timeSinceStart >= duration;
   }
 };
+
 
 
 

@@ -3,7 +3,7 @@ import json
 import time
 import serial
 
-arduino = serial.Serial('COM7', 9600)
+arduino = serial.Serial('COM3', 9600)
 
 THINGSBOARD_HOST = "demo.thingsboard.io"
 #THINGSBOARD_HOST = 'https://demo.thingsboard.io/dashboards/870c2890-4274-11e7-9e69-c7f326cba909'
@@ -32,7 +32,7 @@ while True:
     #arduino.flush()
     line = str(arduino.readline())
     line = line[2:-1].replace("\\n","").replace("\\r","")
-    if isinstance(line, str):
+    if isinstance(line, str) and len(line)> 0 and line[0] != '#':
         lines = line.split(";");
         print(line)
         if (len(lines)==4)and t%4==1:
