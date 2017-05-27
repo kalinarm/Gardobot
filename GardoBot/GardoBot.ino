@@ -14,8 +14,8 @@ int relayLightPin = 4;
 int relayWaterPin = 5;
 
 //model
-int minMoisture = 200;
-int minLight = 200;
+int minMoisture = 20;
+int minLight = 10;
 
 //data
 int moistureVal;

@@ -6,7 +6,7 @@ public:
     pin = _pin;
   }
   int getValue() {
-    int r = analogRead(pin);
+    int r = (int)((analogRead(pin))*100.0/1024.0);
     return r;
   }
 };
