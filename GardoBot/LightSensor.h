@@ -8,8 +8,6 @@ public:
   }
   int getValue() {
     int r = 1024 - analogRead(pin);
-    Serial.print("Light : ");
-    Serial.println(((int)r)); 
     return r;
   }
 };

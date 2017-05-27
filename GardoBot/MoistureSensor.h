@@ -7,8 +7,6 @@ public:
   }
   int getValue() {
     int r = analogRead(pin);
-    Serial.print("Moisture : ");
-    Serial.println(((int)r)); 
     return r;
   }
 };

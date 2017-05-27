@@ -1,6 +1,9 @@
 import paho.mqtt.client as mqtt
 import json
 import time
+import serial
+
+arduino = serial.Serial('COM7', 9600)
 
 THINGSBOARD_HOST = "demo.thingsboard.io"
 #THINGSBOARD_HOST = 'https://demo.thingsboard.io/dashboards/870c2890-4274-11e7-9e69-c7f326cba909'
@@ -26,17 +29,26 @@ client.connect(THINGSBOARD_HOST, 1883, 60)
 
 t = 1
 while True:
-    sensor_data = {}
-    sensor_data['temperature'] = t
-    sensor_data['humidity'] = 55
-    client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
+    #arduino.flush()
+    line = str(arduino.readline())
+    line = line[2:-1].replace("\\n","").replace("\\r","")
+    if isinstance(line, str):
+        lines = line.split(";");
+        print(line)
+        if (len(lines)==4)and t%4==1:
+            sensor_data = {}
+            sensor_data['temperature'] = float(lines[0])
+            sensor_data['humidity'] = float(lines[1])
+            sensor_data['moisture'] = float(lines[2])
+            sensor_data['light'] = float(lines[3])
+            client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
     t=t+1
-    time.sleep(1)
+    #time.sleep(1)
 
 try:
     client.loop_forever()
 except KeyboardInterrupt:
-    pass
+    serial.close()
 
 
 

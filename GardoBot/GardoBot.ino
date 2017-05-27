@@ -2,7 +2,7 @@
 //for temperature
 #include <SimpleDHT.h>
 
-int periodMilis = 100;
+int periodMilis = 500;
 
 int pinTemperature = 2;
 int redpin = 9; //select the pin for the red LED
@@ -46,7 +46,7 @@ void setup() {
   //hub.launchProcess(new ProcessMonitor());
   //hub.launchProcess(new ProcessWater(4.0));
   //hub.launchProcess(new ProcessLight(8.0));
-  
+
   Process* p = new ProcessFade(1.0, 3);
   //p->attachProcess(new ProcessFade(4.0));
   hub.launchProcess(p);
@@ -55,12 +55,19 @@ void setup() {
 void loop() {
   hub.doStep(periodMilis);
 
-  //modTemp.getValue();
+  modTemp.getValue();
   //int lightVal = lightSensor.getValue();
   //int moistureVal = moistureSensor.getValue();
   //rgb.setBlue(moistureVal / 4);
 
-
+  Serial.print((int)modTemp.temperature); 
+  Serial.print(";");
+  Serial.print((int)modTemp.humidity); 
+  Serial.print(";");
+  Serial.print((int)moistureSensor.getValue()); 
+  Serial.print(";");
+  Serial.print((int)lightSensor.getValue()); 
+  Serial.println();
   // DHT11 sampling rate is 1HZ.
   delay(periodMilis);
 }
@@ -72,6 +79,7 @@ void water(float time) {
   relayWater.turnOff();
   rgb.setColor(0, 0, 0);
 }
+
 
 
 

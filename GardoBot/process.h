@@ -100,7 +100,7 @@ public :
   }
   ProcessFade(float _duration, int _repetition) : 
   Process(_duration) {
-    repetition = _repetition;
+    repetition = _repetition - 1;
   }
   virtual void OnBegin() {
     rgb.setColor(0, 0, 0);

@@ -15,8 +15,8 @@ public :
       procs[i] = NULL;
     }
     // start working...
-    Serial.println("=================================");
-    Serial.println("GardoBot Init");
+    //Serial.println("=================================");
+    //Serial.println("GardoBot Init");
   }
 
   void doStep(float dt) {
