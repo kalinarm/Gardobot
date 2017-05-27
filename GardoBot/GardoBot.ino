@@ -43,17 +43,22 @@ void setup() {
   hub.init();
 
   //water(1.0);
-  //hub.launchProcess(new ProcessWater(2.0));
-  hub.launchProcess(new ProcessLight(8.0));
+  //hub.launchProcess(new ProcessMonitor());
+  //hub.launchProcess(new ProcessWater(4.0));
+  //hub.launchProcess(new ProcessLight(8.0));
+  
+  Process* p = new ProcessFade(1.0, 3);
+  //p->attachProcess(new ProcessFade(4.0));
+  hub.launchProcess(p);
 }
 
 void loop() {
   hub.doStep(periodMilis);
 
-  /*modTemp.getValue();
-  int lightVal = lightSensor.getValue();
-  int moistureVal = moistureSensor.getValue();
-  rgb.setColor(moistureVal / 4, 0,0);*/
+  //modTemp.getValue();
+  //int lightVal = lightSensor.getValue();
+  //int moistureVal = moistureSensor.getValue();
+  //rgb.setBlue(moistureVal / 4);
 
 
   // DHT11 sampling rate is 1HZ.

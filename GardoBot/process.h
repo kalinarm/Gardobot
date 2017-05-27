@@ -4,9 +4,12 @@ class Process {
 public :
   float timeSinceStart;
   float duration;
+  Process* attachedProcess;
+
   Process(float _duration) {
     duration = _duration * 1000.0;
     timeSinceStart = 0;
+    attachedProcess = NULL;
   }
   virtual void OnBegin() {
 
@@ -16,11 +19,11 @@ public :
   } 
   virtual void OnStep(float dt) {
     timeSinceStart += dt;
-    Serial.print(timeSinceStart);
-    Serial.print(" / ");
-    Serial.println(duration);
+    /*Serial.print(timeSinceStart);
+     Serial.print(" / ");
+     Serial.println(duration);*/
   }
-  bool isFinish() {
+  virtual bool isFinish() {
     return timeSinceStart >= duration;
   }
 };
@@ -66,6 +69,8 @@ public :
 class ProcessLight : 
 public Process {
 public :
+
+
   ProcessLight(float _duration) : 
   Process(_duration) {
 
@@ -83,4 +88,73 @@ public :
     relayLight.turnOff();
   } 
 };
+
+
+class ProcessFade : 
+public Process {
+public :
+  int repetition;
+  ProcessFade(float _duration) : 
+  Process(_duration) {
+    repetition = 0;
+  }
+  ProcessFade(float _duration, int _repetition) : 
+  Process(_duration) {
+    repetition = _repetition;
+  }
+  virtual void OnBegin() {
+    rgb.setColor(0, 0, 0);
+  } 
+  virtual void OnEnd() {
+    rgb.setColor(0, 0, 0);
+  } 
+
+  virtual void OnStep(float dt) {
+    timeSinceStart += dt;
+    float factor = (timeSinceStart / duration);
+    if (factor > 0.5) {
+      factor = 1.0 - factor; 
+    }
+    rgb.setColor(factor * 255, 0, 0);
+  }
+  virtual bool isFinish() {
+    if ( timeSinceStart >= duration) {
+      if (repetition > 0) {
+        repetition-=1;
+        timeSinceStart = 0;
+      }else {
+       return true; 
+      }
+    }
+    return false;
+  }
+};
+
+
+class ProcessMonitor : 
+public Process {
+public :
+
+
+  ProcessMonitor() : 
+  Process(0) {
+
+  }
+  virtual void OnBegin() {
+    Serial.println("--> start monitoring");
+
+  } 
+  virtual void OnEnd() {
+    Serial.println("<-- stop monitoring");
+  } 
+
+  virtual bool isFinish() {
+    return false;
+  }
+};
+
+
+
+
+
 

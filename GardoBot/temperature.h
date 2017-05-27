@@ -26,11 +26,11 @@ public :
     }
     //Serial.println("");
 
-    Serial.print("Sensor Temp/humidity: ");
+    /*Serial.print("Sensor Temp/humidity: ");
     Serial.print((int)temperature); 
     Serial.print(" *C, ");
     Serial.print((int)humidity); 
-    Serial.println(" %");
+    Serial.println(" %");*/
   }
 };
 
